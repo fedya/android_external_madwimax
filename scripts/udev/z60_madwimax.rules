@@ -1,0 +1,16 @@
+# udev rules file for madwimax supported devices
+ACTION!="add", GOTO="madwimax_rules_end"
+
+SUBSYSTEM=="usb_device", GOTO="madwimax_rules_start"
+SUBSYSTEM=="usb", ENV{DEVTYPE}=="usb_device", GOTO="madwimax_rules_start"
+GOTO="madwimax_rules_end"
+
+LABEL="madwimax_rules_start"
+
+# run madwimax
+ENV{ID_VENDOR_ID}=="04e8", ENV{ID_MODEL_ID}=="6761", RUN+="/usr/local/madwimax/sbin/madwimax -df --exact-device=$env{BUSNUM}/$env{DEVNUM}"
+ENV{ID_VENDOR_ID}=="04e9", ENV{ID_MODEL_ID}=="6761", RUN+="/usr/local/madwimax/sbin/madwimax -df --exact-device=$env{BUSNUM}/$env{DEVNUM}"
+ENV{ID_VENDOR_ID}=="04e8", ENV{ID_MODEL_ID}=="6731", RUN+="/usr/local/madwimax/sbin/madwimax -d --exact-device=$env{BUSNUM}/$env{DEVNUM}"
+ENV{ID_VENDOR_ID}=="04e8", ENV{ID_MODEL_ID}=="6780", RUN+="/usr/local/madwimax/sbin/madwimax -df --exact-device=$env{BUSNUM}/$env{DEVNUM}"
+
+LABEL="madwimax_rules_end"
